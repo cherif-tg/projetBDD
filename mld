@@ -1,0 +1,7 @@
+# Modèle créé le : Tue Dec 23 10:29:38 GMT 2025 
+Devis (devis_id_Devis, numero_devis_Devis, date_emission_Devis, data_validite_Devis, montant_ht_Devis, montant_tva_Devis, montant_ttc_Devis, statut_Devis, #ligne_id_LigneDevis) 
+Client (id_client_Client, nom_client_Client, prenom_Client, email_Client, telephone_Client, adresse_Client, date_creation_Client, #devis_id_Devis, #facture_id_Facture) 
+Facture (facture_id_Facture, date_emission_Facture, date_echeance_Facture, montant_ht_Facture, montant_tva_Facture, montant_ttc_Facture, #paiement_id_Paiement) 
+Service (service_id_Service, libelle_Service, description_Service, prix_ht_Service, taux_tva_Service, categorie_Service, #lignedevis_ligne_id_lignedevis) 
+LigneDevis (ligne_id_LigneDevis, quantite_LigneDevis, prix_unitaire_LigneDevis, taux_tva_LigneDevis, montant_ht_LigneDevis, montant_tva_LigneDevis, montant_ttc_LigneDevis) 
+Paiement (paiement_id_Paiement, date_paiement_Paiement, montant_Paiement, mode_paiement_Paiement) 

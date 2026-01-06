@@ -1,0 +1,67 @@
+DROP TABLE IF EXISTS Devis ;
+CREATE TABLE Devis (devis_id_Devis INT AUTO_INCREMENT NOT NULL,
+numero_devis_Devis INTEGER,
+date_emission_Devis DATETIME,
+data_validite_Devis DATETIME,
+montant_ht_Devis DOUBLE,
+montant_tva_Devis DOUBLE,
+montant_ttc_Devis DOUBLE,
+statut_Devis VARCHAR(150),
+ligne_id_LigneDevis **NOT FOUND**,
+PRIMARY KEY (devis_id_Devis)) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Client ;
+CREATE TABLE Client (id_client_Client INT AUTO_INCREMENT NOT NULL,
+nom_client_Client VARCHAR(150),
+prenom_Client VARCHAR(150),
+email_Client TEXT,
+telephone_Client VARCHAR(150),
+adresse_Client TEXT,
+date_creation_Client DATETIME,
+devis_id_Devis **NOT FOUND**,
+facture_id_Facture **NOT FOUND**,
+PRIMARY KEY (id_client_Client)) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Facture ;
+CREATE TABLE Facture (facture_id_Facture BIGINT AUTO_INCREMENT NOT NULL,
+date_emission_Facture DATETIME,
+date_echeance_Facture INTEGER,
+montant_ht_Facture DOUBLE,
+montant_tva_Facture DOUBLE,
+montant_ttc_Facture DOUBLE,
+paiement_id_Paiement **NOT FOUND**,
+PRIMARY KEY (facture_id_Facture)) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Service ;
+CREATE TABLE Service (service_id_Service INT AUTO_INCREMENT NOT NULL,
+libelle_Service TEXT,
+description_Service TEXT,
+prix_ht_Service DOUBLE,
+taux_tva_Service DOUBLE,
+categorie_Service VARCHAR,
+lignedevis_ligne_id_lignedevis **NOT FOUND**,
+PRIMARY KEY (service_id_Service)) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS LigneDevis ;
+CREATE TABLE LigneDevis (ligne_id_LigneDevis INT AUTO_INCREMENT NOT NULL,
+quantite_LigneDevis INTEGER,
+prix_unitaire_LigneDevis DOUBLE,
+taux_tva_LigneDevis DOUBLE,
+montant_ht_LigneDevis DOUBLE,
+montant_tva_LigneDevis DOUBLE,
+montant_ttc_LigneDevis DOUBLE,
+PRIMARY KEY (ligne_id_LigneDevis)) ENGINE=InnoDB;
+
+DROP TABLE IF EXISTS Paiement ;
+CREATE TABLE Paiement (paiement_id_Paiement INT AUTO_INCREMENT NOT NULL,
+date_paiement_Paiement DATETIME,
+montant_Paiement DOUBLE,
+mode_paiement_Paiement VARCHAR(150),
+PRIMARY KEY (paiement_id_Paiement)) ENGINE=InnoDB;
+
+ALTER TABLE Devis ADD CONSTRAINT FK_Devis_ligne_id_LigneDevis FOREIGN KEY (ligne_id_LigneDevis) REFERENCES LigneDevis (ligne_id_LigneDevis);
+
+ALTER TABLE Client ADD CONSTRAINT FK_Client_devis_id_Devis FOREIGN KEY (devis_id_Devis) REFERENCES Devis (devis_id_Devis);
+ALTER TABLE Client ADD CONSTRAINT FK_Client_facture_id_Facture FOREIGN KEY (facture_id_Facture) REFERENCES Facture (facture_id_Facture);
+ALTER TABLE Facture ADD CONSTRAINT FK_Facture_paiement_id_Paiement FOREIGN KEY (paiement_id_Paiement) REFERENCES Paiement (paiement_id_Paiement);
+ALTER TABLE Service ADD CONSTRAINT FK_Service_lignedevis_ligne_id_lignedevis FOREIGN KEY (lignedevis_ligne_id_lignedevis) REFERENCES LigneDevis (ligne_id_LigneDevis);
